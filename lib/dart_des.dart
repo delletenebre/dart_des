@@ -16,7 +16,7 @@ class _BaseDES {
 
 class DES {
   static const BLOCK_SIZE = 8;
-  static const IV_ZEROS = const [0, 0, 0, 0, 0, 0, 0, 0];
+  static const IV_ZEROS = [0, 0, 0, 0, 0, 0, 0, 0];
 
   // Type of crypting being done
   static const _ENCRYPT = 0x00;
@@ -147,7 +147,7 @@ class DES {
 
   _BaseDES _baseDES;
   // 16 48-bit keys (K1 - K16)
-  List<List<int>> _kN = List.filled(16, List.filled(48, 0));
+  final List<List<int>> _kN = List.filled(16, List.filled(48, 0));
 
   set iv(List<int> value) => _baseDES.iv = value;
 
