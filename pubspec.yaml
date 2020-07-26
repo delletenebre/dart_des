@@ -1,0 +1,8 @@
+name: dart_des
+description: This algorithm is a pure dart implementation of the DES and Triple DES algorithms.
+version: 0.0.1
+author: Sergei Nezhinskikh <delletenebre@gmail.com>
+homepage:
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
