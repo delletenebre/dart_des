@@ -1,3 +1,7 @@
+## [0.0.3]
+
+* Add padding. (None, OneAndZeroes)
+
 ## [0.0.2]
 
 * Fix some static analysis issues

@@ -1,5 +1,10 @@
+import 'package:dart_des/des_padding.dart';
+
 // Modes of crypting / cyphering
 enum DESMode { ECB, CBC }
+
+// Types for pad / unpad data
+enum DESPaddingType { None, OneAndZeroes }
 
 // The base class shared by des and triple des.
 class _BaseDES {
@@ -150,8 +155,14 @@ class DES {
   final List<List<int>> _kN = List.filled(16, List.filled(48, 0));
 
   set iv(List<int> value) => _baseDES.iv = value;
+  final DESPaddingType paddingType;
 
-  DES({List<int> key, DESMode mode = DESMode.ECB, iv = IV_ZEROS}) {
+  DES({
+    List<int> key,
+    DESMode mode = DESMode.ECB,
+    iv = IV_ZEROS,
+    this.paddingType = DESPaddingType.OneAndZeroes
+  }) {
     if (key.length != 8) {
       throw Exception('Invalid DES key size. Key must be exactly 8 bytes long.');
     }
@@ -164,10 +175,10 @@ class DES {
     List<int> result = [];
     data.forEach((e) =>
     result += e.toRadixString(2)
-      .padLeft(8, '0')
-      .codeUnits
-      .map((el) => el - 48)
-      .toList()
+        .padLeft(8, '0')
+        .codeUnits
+        .map((el) => el - 48)
+        .toList()
     );
     return result;
   }
@@ -186,7 +197,7 @@ class DES {
 
   // Permutate this block with the specified table
   List<int> _permutate(List<int> table, List<int> block) =>
-    table.map((e) => block[e]).toList();
+      table.map((e) => block[e]).toList();
 
   // Transform the secret key, so that it is ready for data processing
   // Create the 16 subkeys, K[1] - K[16]
@@ -329,8 +340,10 @@ class DES {
     return result;
   }
 
-  List<int> encrypt(List<int> data) => crypt(data, _ENCRYPT);
-  List<int> decrypt(List<int> data) => crypt(data, _DECRYPT);
+  List<int> encrypt(List<int> data) => //crypt(data, _ENCRYPT);
+  crypt(DESPadding.pad(data, paddingType), _ENCRYPT);
+  List<int> decrypt(List<int> data) => //crypt(data, _DECRYPT);
+  DESPadding.unpad(crypt(data, _DECRYPT), paddingType);
 }
 
 
@@ -339,13 +352,19 @@ class DES {
 //#################################
 class DES3 {
   final DESMode mode;
+  final DESPaddingType paddingType;
 
   DES _desFirst;
   DES _desSecond;
   DES _desThird;
   List<int> iv;
 
-  DES3({List<int> key, this.mode = DESMode.ECB, this.iv = DES.IV_ZEROS}) {
+  DES3({
+    List<int> key,
+    this.mode = DESMode.ECB,
+    this.iv = DES.IV_ZEROS,
+    this.paddingType = DESPaddingType.OneAndZeroes
+  }) {
     int keySize = 24; // Use DES-EDE3 mode
     if (key.length != keySize) {
       if (key.length == 16) { // Use DES-EDE2 mode
@@ -364,16 +383,20 @@ class DES3 {
       }
     }
 
-    _desFirst = DES(key: key.sublist(0, 8), mode: mode, iv: iv);
-    _desSecond = DES(key: key.sublist(8, 16), mode: mode, iv: iv);
+    _desFirst = DES(key: key.sublist(0, 8), mode: mode, iv: iv,
+        paddingType: DESPaddingType.None);
+    _desSecond = DES(key: key.sublist(8, 16), mode: mode, iv: iv,
+        paddingType: DESPaddingType.None);
     if (keySize == 16) {
       _desThird = _desFirst;
     } else {
-      _desThird = DES(key: key.sublist(16), mode: mode, iv: iv);
+      _desThird = DES(key: key.sublist(16), mode: mode, iv: iv,
+          paddingType: DESPaddingType.None);
     }
   }
 
   List<int> encrypt(List<int> data) {
+    data = DESPadding.pad(data, paddingType);
     if (mode == DESMode.CBC) {
       _desFirst.iv = iv;
       _desSecond.iv = iv;
@@ -423,6 +446,7 @@ class DES3 {
       data = _desFirst.decrypt(data);
     }
 
+    data = DESPadding.unpad(data, paddingType);
     return data;
   }
 }

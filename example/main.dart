@@ -17,10 +17,10 @@ main() {
   encrypted = desECB.encrypt(message.codeUnits);
   decrypted = desECB.decrypt(encrypted);
   print('DES mode: ECB');
-  print('encrypted: $encrypted');
+  // print('encrypted: $encrypted');
   print('encrypted (hex): ${hex.encode(encrypted)}');
   print('encrypted (base64): ${base64.encode(encrypted)}');
-  print('decrypted: $decrypted');
+  // print('decrypted: $decrypted');
   print('decrypted (hex): ${hex.encode(decrypted)}');
   print('decrypted (utf8): ${utf8.decode(decrypted)}');
 
@@ -28,10 +28,10 @@ main() {
   encrypted = desCBC.encrypt(message.codeUnits);
   decrypted = desCBC.decrypt(encrypted);
   print('DES mode: CBC');
-  print('encrypted: $encrypted');
+  // print('encrypted: $encrypted');
   print('encrypted (hex): ${hex.encode(encrypted)}');
   print('encrypted (base64): ${base64.encode(encrypted)}');
-  print('decrypted: $decrypted');
+  // print('decrypted: $decrypted');
   print('decrypted (hex): ${hex.encode(decrypted)}');
   print('decrypted (utf8): ${utf8.decode(decrypted)}');
 
@@ -40,10 +40,10 @@ main() {
   encrypted = des3ECB.encrypt(message.codeUnits);
   decrypted = des3ECB.decrypt(encrypted);
   print('Triple DES mode: ECB');
-  print('encrypted: $encrypted');
+  // print('encrypted: $encrypted');
   print('encrypted (hex): ${hex.encode(encrypted)}');
   print('encrypted (base64): ${base64.encode(encrypted)}');
-  print('decrypted: $decrypted');
+  // print('decrypted: $decrypted');
   print('decrypted (hex): ${hex.encode(decrypted)}');
   print('decrypted (utf8): ${utf8.decode(decrypted)}');
 
@@ -52,10 +52,10 @@ main() {
   encrypted = des3CBC.encrypt(message.codeUnits);
   decrypted = des3CBC.decrypt(encrypted);
   print('Triple DES mode: CBC');
-  print('encrypted: $encrypted');
+  // print('encrypted: $encrypted');
   print('encrypted (hex): ${hex.encode(encrypted)}');
   print('encrypted (base64): ${base64.encode(encrypted)}');
-  print('decrypted: $decrypted');
+  // print('decrypted: $decrypted');
   print('decrypted (hex): ${hex.encode(decrypted)}');
   print('decrypted (utf8): ${utf8.decode(decrypted)}');
 }
