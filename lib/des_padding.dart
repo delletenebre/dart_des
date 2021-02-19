@@ -5,6 +5,8 @@ class DESPadding {
   static List<int> pad(List<int> data, DESPaddingType paddingType) {
     if (paddingType == DESPaddingType.OneAndZeroes) {
       return _oneAndZerosPad(data);
+    } else if (paddingType == DESPaddingType.PKCS7){
+        return _pkcs7Pad(data);
     }
 
     return data;
@@ -13,6 +15,8 @@ class DESPadding {
   static List<int> unpad(List<int> block, DESPaddingType paddingType) {
     if (paddingType == DESPaddingType.OneAndZeroes) {
       return _oneAndZerosUnpad(block);
+    } else if (paddingType == DESPaddingType.PKCS7){
+        return _pkcs7Unpad(block);
     }
 
     return block;
@@ -56,5 +60,22 @@ class DESPadding {
     } else {
       return data;
     }
+  }
+
+  static List<int> _pkcs7Pad(List<int> data) {
+    final blocSize = 8;
+    final left = blocSize - (data.length % blocSize);
+    final padding = List.generate(left, (index) => left);
+    return data + padding.sublist(0, left);
+  }
+
+  static List<int> _pkcs7Unpad(List<int> data) {
+    List<int> reversed = List.from(data.reversed);
+    int paddingSize = reversed.first;
+    for(int i=0; i < paddingSize; i++) {
+      if(reversed[i] != paddingSize)
+        return data;
+    }
+    return data.sublist(0, data.length - (paddingSize));
   }
 }
