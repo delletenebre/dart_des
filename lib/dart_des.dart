@@ -4,7 +4,7 @@ import 'package:dart_des/des_padding.dart';
 enum DESMode { ECB, CBC }
 
 // Types for pad / unpad data
-enum DESPaddingType { None, OneAndZeroes }
+enum DESPaddingType { None, OneAndZeroes, PKCS7 }
 
 // The base class shared by des and triple des.
 class _BaseDES {
