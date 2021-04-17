@@ -1,12 +1,11 @@
 import 'package:dart_des/dart_des.dart';
 
 class DESPadding {
-
   static List<int> pad(List<int> data, DESPaddingType paddingType) {
     if (paddingType == DESPaddingType.OneAndZeroes) {
       return _oneAndZerosPad(data);
-    } else if (paddingType == DESPaddingType.PKCS7){
-        return _pkcs7Pad(data);
+    } else if (paddingType == DESPaddingType.PKCS7) {
+      return _pkcs7Pad(data);
     }
 
     return data;
@@ -15,8 +14,8 @@ class DESPadding {
   static List<int> unpad(List<int> block, DESPaddingType paddingType) {
     if (paddingType == DESPaddingType.OneAndZeroes) {
       return _oneAndZerosUnpad(block);
-    } else if (paddingType == DESPaddingType.PKCS7){
-        return _pkcs7Unpad(block);
+    } else if (paddingType == DESPaddingType.PKCS7) {
+      return _pkcs7Unpad(block);
     }
 
     return block;
@@ -52,7 +51,7 @@ class DESPadding {
   static List<int> _oneAndZerosUnpad(List<int> data) {
     List<int> reversed = List.from(data.reversed);
     int l = 0;
-    while(reversed[l] == 0x00) {
+    while (reversed[l] == 0x00) {
       l += 1;
     }
     if (reversed[l] == 0x80) {
@@ -72,9 +71,8 @@ class DESPadding {
   static List<int> _pkcs7Unpad(List<int> data) {
     List<int> reversed = List.from(data.reversed);
     int paddingSize = reversed.first;
-    for(int i=0; i < paddingSize; i++) {
-      if(reversed[i] != paddingSize)
-        return data;
+    for (int i = 0; i < paddingSize; i++) {
+      if (reversed[i] != paddingSize) return data;
     }
     return data.sublist(0, data.length - (paddingSize));
   }
