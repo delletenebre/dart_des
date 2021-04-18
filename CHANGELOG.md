@@ -1,3 +1,7 @@
+## [1.0.0]
+
+* Migrate package to null-safety
+
 ## [0.0.3]
 
 * Add padding. (None, OneAndZeroes)
