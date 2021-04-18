@@ -1,7 +1,7 @@
 name: dart_des
 description: This algorithm is a pure dart implementation of the DES and Triple
   DES algorithms.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/delletenebre/dart_des
 
 environment:
