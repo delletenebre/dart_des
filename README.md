@@ -1,7 +1,7 @@
 # dart_des
 
 This algorithm is a pure dart implementation of the DES and Triple DES algorithms
-(port of [pyDES](http://whitemans.ca/des.html)).
+(port of [pyDES](https://github.com/twhiteman/pyDes)).
 Triple DES is either DES-EDE3 with a 24 byte key, or DES-EDE2 with a 16 byte key.
 
 ### Example

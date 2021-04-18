@@ -1080,7 +1080,7 @@ class DES {
     List<int>? iv;
     List<int> processedBlock;
     // Error check the data
-    if (data.length == 0) {
+    if (data.isEmpty) {
       return [];
     }
     if (data.length % BLOCK_SIZE != 0) {
