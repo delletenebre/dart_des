@@ -69,7 +69,7 @@ class DESPadding {
     if (blockSize < 1 || blockSize > 255) {
       throw Exception('PKCS7 block size must be in range 1..255');
     }
-    
+
     final left = blockSize - (data.length % blockSize);
     final padding = List.generate(left, (index) => left);
     return data + padding.sublist(0, left);

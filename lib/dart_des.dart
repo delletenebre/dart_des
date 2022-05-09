@@ -938,12 +938,11 @@ class DES {
   set iv(List<int> value) => _baseDES.iv = value;
   final DESPaddingType paddingType;
 
-  DES({
-    required List<int> key,
-    DESMode mode = DESMode.ECB,
-    iv = IV_ZEROS,
-    this.paddingType = DESPaddingType.OneAndZeroes
-  }) {
+  DES(
+      {required List<int> key,
+      DESMode mode = DESMode.ECB,
+      iv = IV_ZEROS,
+      this.paddingType = DESPaddingType.OneAndZeroes}) {
     if (key.length != 8) {
       throw Exception(
           'Invalid DES key size. Key must be exactly 8 bytes long.');
@@ -1153,7 +1152,7 @@ class DES3 {
         keySize = 16;
       } else {
         throw Exception(
-          'Invalid triple DES key size. Key must be either 16 or 24 bytes long');
+            'Invalid triple DES key size. Key must be either 16 or 24 bytes long');
       }
     }
     if (mode == DESMode.CBC) {
