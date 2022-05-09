@@ -1,3 +1,11 @@
+## [1.0.2]
+
+* Add PKCS5 padding
+
+## [1.0.1]
+
+* Add PKCS7 padding
+
 ## [1.0.0]
 
 * Migrate package to null-safety

@@ -5,13 +5,28 @@ import 'package:dart_des/dart_des.dart';
 
 main() {
   String key = '12345678'; // 8-byte
-  String message = 'Driving in from the edge of town';
+  String message = 'Driving in from the edge of to';
   List<int> encrypted;
   List<int> decrypted;
   List<int> iv = [1, 2, 3, 4, 5, 6, 7, 8];
 
   print('key: $key');
   print('message: $message');
+
+  DES desECBPKCS5 = DES(
+    key: key.codeUnits,
+    mode: DESMode.ECB,
+    paddingType: DESPaddingType.PKCS5,
+  );
+  encrypted = desECBPKCS5.encrypt(message.codeUnits);
+  decrypted = desECBPKCS5.decrypt(encrypted);
+  print('DES mode: ECB');
+  // print('encrypted: $encrypted');
+  print('encrypted (hex): ${hex.encode(encrypted)}');
+  print('encrypted (base64): ${base64.encode(encrypted)}');
+  // print('decrypted: $decrypted');
+  print('decrypted (hex): ${hex.encode(decrypted)}');
+  print('decrypted (utf8): ${utf8.decode(decrypted)}');
 
   DES desECB = DES(key: key.codeUnits, mode: DESMode.ECB);
   encrypted = desECB.encrypt(message.codeUnits);

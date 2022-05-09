@@ -6,6 +6,8 @@ class DESPadding {
       return _oneAndZerosPad(data);
     } else if (paddingType == DESPaddingType.PKCS7) {
       return _pkcs7Pad(data);
+    } else if (paddingType == DESPaddingType.PKCS5) {
+      return _pkcs5Pad(data);
     }
 
     return data;
@@ -16,6 +18,8 @@ class DESPadding {
       return _oneAndZerosUnpad(block);
     } else if (paddingType == DESPaddingType.PKCS7) {
       return _pkcs7Unpad(block);
+    } else if (paddingType == DESPaddingType.PKCS5) {
+      return _pkcs5Unpad(block);
     }
 
     return block;
@@ -43,8 +47,8 @@ class DESPadding {
    */
   static List<int> _oneAndZerosPad(List<int> data) {
     final padding = [0x80] + List.generate(7, (index) => 0);
-    int size = padding.length;
-    int left = size - (data.length % size);
+    final size = padding.length;
+    final left = size - (data.length % size);
     return data + padding.sublist(0, left);
   }
 
@@ -61,19 +65,28 @@ class DESPadding {
     }
   }
 
-  static List<int> _pkcs7Pad(List<int> data) {
-    final blocSize = 8;
-    final left = blocSize - (data.length % blocSize);
+  static List<int> _pkcs7Pad(List<int> data, {int blockSize = 8}) {
+    if (blockSize < 1 || blockSize > 255) {
+      throw Exception('PKCS7 block size must be in range 1..255');
+    }
+    
+    final left = blockSize - (data.length % blockSize);
     final padding = List.generate(left, (index) => left);
     return data + padding.sublist(0, left);
   }
 
   static List<int> _pkcs7Unpad(List<int> data) {
     List<int> reversed = List.from(data.reversed);
-    int paddingSize = reversed.first;
+    final paddingSize = reversed.first;
     for (int i = 0; i < paddingSize; i++) {
-      if (reversed[i] != paddingSize) return data;
+      if (reversed[i] != paddingSize) {
+        return data;
+      }
     }
     return data.sublist(0, data.length - (paddingSize));
   }
+
+  static List<int> _pkcs5Pad(List<int> data) => _pkcs7Pad(data, blockSize: 8);
+
+  static List<int> _pkcs5Unpad(List<int> data) => _pkcs7Unpad(data);
 }
